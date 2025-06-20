@@ -31,7 +31,21 @@ const io = new Server(server, {
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        connectSrc: ["'self'", process.env.API_URL || "http://localhost:3001"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:"],
+        fontSrc: ["'self'", "data:"],
+      },
+    },
+  })
+);
+
 app.use(cors({
   origin: [
     process.env.CLIENT_URL || "http://localhost:5173",
