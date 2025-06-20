@@ -13,8 +13,11 @@ RUN npm run install:all
 # Copy all source code
 COPY . .
 
-# Build frontend
+# Set environment variables for frontend build
 WORKDIR /app/frontend
+RUN echo "VITE_API_URL=/api" > .env
+
+# Build frontend
 RUN npm run build
 
 # Build backend
